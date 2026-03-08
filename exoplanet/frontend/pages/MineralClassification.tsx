@@ -41,7 +41,9 @@ export default function MineralClassification() {
         setResults(data);
       } else if (data && Array.isArray(data.class_distribution)) {
         // sometimes the backend may return a top-level class_distribution
-        setResults({ statistics: { class_distribution: data.class_distribution } });
+        setResults({
+          statistics: { class_distribution: data.class_distribution },
+        });
       } else {
         // fallback: set raw data and let PlanetMineralGlobe attempt normalization
         setResults(data);
@@ -49,8 +51,7 @@ export default function MineralClassification() {
     } catch (error) {
       console.error("Error during inference:", error);
       setResults({
-        error:
-          `Failed to process image. Make sure the backend server is running on ${API_BASE_URL}`,
+        error: `Failed to process image. Make sure the backend server is running on ${API_BASE_URL}`,
       });
     } finally {
       setLoading(false);
@@ -75,23 +76,39 @@ export default function MineralClassification() {
           <div className="mineral-grid">
             {/* Upload Section - full width */}
             <div style={{ gridColumn: "1 / -1", marginBottom: 12 }}>
-              <ImageUploader onImageUpload={handleImageUpload} loading={loading} />
+              <ImageUploader
+                onImageUpload={handleImageUpload}
+                loading={loading}
+              />
             </div>
 
-
             {/* Planet globe (right, larger) */}
-            <div className="mineral-card" style={{ minHeight: 640, gridColumn: "1 / -1" }}>
+            <div
+              className="mineral-card"
+              style={{ minHeight: 640, gridColumn: "1 / -1" }}
+            >
               <div style={{ width: "100%", height: "100%" }}>
                 <PlanetMineralGlobe
-                  results={Array.isArray(results) ? results : (results?.statistics?.class_distribution ?? results?.class_distribution ?? null)}
-                  onResults={(data:any) => { setResults(data); }}
-                  onUploadState={(b:boolean) => setLoading(b)}
+                  results={
+                    Array.isArray(results)
+                      ? results
+                      : (results?.statistics?.class_distribution ??
+                        results?.class_distribution ??
+                        null)
+                  }
+                  onResults={(data: any) => {
+                    setResults(data);
+                  }}
+                  onUploadState={(b: boolean) => setLoading(b)}
                 />
               </div>
             </div>
 
             {/* Result details full-width below globe */}
-            <div className="mineral-card" style={{ gridColumn: "1 / -1", marginTop: 12 }}>
+            <div
+              className="mineral-card"
+              style={{ gridColumn: "1 / -1", marginTop: 12 }}
+            >
               <ResultDetailsPanel results={results} loading={loading} />
             </div>
           </div>

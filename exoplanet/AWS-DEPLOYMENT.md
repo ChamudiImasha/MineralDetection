@@ -16,6 +16,7 @@ This guide provides simple deployment steps for S3 (frontend) and EC2 (backend).
 ### Option 1: Using PowerShell Script (Windows)
 
 1. **Navigate to frontend directory:**
+
    ```powershell
    cd frontend
    ```
@@ -28,17 +29,20 @@ This guide provides simple deployment steps for S3 (frontend) and EC2 (backend).
 ### Option 2: Manual Steps
 
 1. **Build the app:**
+
    ```bash
    cd frontend
    npm run build
    ```
 
 2. **Create S3 bucket (via AWS Console or CLI):**
+
    ```bash
    aws s3 mb s3://your-mineral-detection-app
    ```
 
 3. **Upload files:**
+
    ```bash
    aws s3 sync dist/ s3://your-mineral-detection-app --acl public-read
    ```
@@ -82,12 +86,14 @@ This guide provides simple deployment steps for S3 (frontend) and EC2 (backend).
 ### Step 2: Connect and Setup
 
 1. **Connect via SSH:**
+
    ```bash
    ssh -i your-key.pem ubuntu@your-ec2-public-ip
    ```
 
 2. **Upload backend code:**
    Open a NEW terminal on your local machine:
+
    ```bash
    scp -i your-key.pem -r backend/app/* ubuntu@your-ec2-ip:~/crism-backend/
    ```
@@ -119,11 +125,13 @@ python3 main.py
 ### Step 4: Keep Server Running (Background)
 
 Option A - Using nohup:
+
 ```bash
 nohup python3 main.py > app.log 2>&1 &
 ```
 
 Option B - Using screen:
+
 ```bash
 sudo apt install screen
 screen -S backend
@@ -147,6 +155,7 @@ Or visit in browser: `http://your-ec2-ip:8000/docs`
 Update your frontend API endpoint:
 
 1. **Edit frontend configuration:**
+
    ```typescript
    // In your frontend API config file
    const API_URL = "http://your-ec2-public-ip:8000";
@@ -191,15 +200,18 @@ aws s3 rb s3://your-bucket-name --force
 ## 🚨 Troubleshooting
 
 ### Frontend Issues
+
 - **404 errors:** Ensure index.html is set as error document in S3
 - **CORS errors:** Check backend CORS settings in `api_server.py`
 
 ### Backend Issues
+
 - **Can't connect:** Check EC2 security group allows port 8000
 - **Model not found:** Model file needs to be included in uploaded files
 - **Service won't start:** Check logs with `sudo journalctl -u crism-api -f`
 
 ### Quick Fixes
+
 ```bash
 # Check if backend is running
 curl http://localhost:8000/health

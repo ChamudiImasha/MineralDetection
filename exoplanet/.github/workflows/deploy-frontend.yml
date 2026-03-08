@@ -3,15 +3,15 @@ name: Deploy Frontend to S3
 on:
   push:
     branches:
-      - main  # Deploy when pushing to main branch
+      - main # Deploy when pushing to main branch
     paths:
-      - 'frontend/**'
-  workflow_dispatch:  # Allow manual trigger from GitHub Actions tab
+      - "frontend/**"
+  workflow_dispatch: # Allow manual trigger from GitHub Actions tab
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -19,8 +19,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies

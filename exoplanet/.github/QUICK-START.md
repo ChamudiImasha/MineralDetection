@@ -3,6 +3,7 @@
 ## 🎯 One-Time Setup (5 minutes)
 
 ### 1. Create AWS Resources
+
 ```bash
 # S3 bucket
 aws s3 mb s3://mineral-detection-app
@@ -14,9 +15,11 @@ aws s3 website s3://mineral-detection-app --index-document index.html
 ```
 
 ### 2. Add GitHub Secrets
+
 **Repository → Settings → Secrets → New secret**
 
 Required secrets:
+
 - `AWS_ACCESS_KEY_ID` - From AWS IAM
 - `AWS_SECRET_ACCESS_KEY` - From AWS IAM
 - `AWS_REGION` - e.g., `us-east-1`
@@ -27,6 +30,7 @@ Required secrets:
 - `EC2_SSH_KEY` - Full content of your `.pem` file
 
 ### 3. Initial EC2 Setup
+
 ```bash
 # SSH into EC2
 ssh -i key.pem ubuntu@YOUR_EC2_IP
@@ -45,6 +49,7 @@ exit
 ## 🚀 Deploy
 
 Just push to main:
+
 ```bash
 git add .
 git commit -m "Deploy to AWS"
@@ -52,6 +57,7 @@ git push origin main
 ```
 
 GitHub Actions will:
+
 - ✅ Build frontend → Upload to S3
 - ✅ Deploy backend → Restart on EC2
 - ✅ Takes ~2-3 minutes
