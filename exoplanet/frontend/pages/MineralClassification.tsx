@@ -2,6 +2,7 @@ import { useState } from "react";
 import ImageUploader from "./component/ImageUploader";
 import ResultDetailsPanel from "./component/ResultDetailsPanel";
 import PlanetMineralGlobe from "./component/Planetmineralglobe";
+import { API_ENDPOINTS, API_BASE_URL } from "../src/config";
 import "./MineralClassification.css";
 // import MineralResultsDisplay from "./component/MineralResultsDisplay";
 
@@ -20,7 +21,7 @@ export default function MineralClassification() {
       formData.append("return_image", "true");
 
       // Call your backend API
-      const response = await fetch("http://localhost:8000/predict", {
+      const response = await fetch(API_ENDPOINTS.predict, {
         method: "POST",
         body: formData,
       });
@@ -49,7 +50,7 @@ export default function MineralClassification() {
       console.error("Error during inference:", error);
       setResults({
         error:
-          "Failed to process image. Make sure the backend server is running on http://localhost:8000",
+          `Failed to process image. Make sure the backend server is running on ${API_BASE_URL}`,
       });
     } finally {
       setLoading(false);
